@@ -43,6 +43,7 @@ jobs:
   upload_artifacts:
     name: Upload Artifacts
     needs: [release,build]
+    runs-on: ubuntu-latest
     steps:
       - uses: AButler/upload-release-assets@v3.0
         with:
