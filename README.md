@@ -19,7 +19,7 @@ Repository reference means e.g.: "refs/heads/main" for a latest commit of a "mai
 
 To delete a stack:
 ```bash
-portainerUtility deleteStack --name=<STACK_NAME>
+portainerUtility deleteStack --portainer-url=<PORTAINER_URL> --endpoint-id=<ENDPOINT_ID> --swarm-id="<SWARM_ID>" --name=<STACK_NAME> --portainer-api-key=<API_KEY> --tls-skip-verify=<true|false>
 ```
 
 ## Contributing
