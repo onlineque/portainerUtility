@@ -17,3 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
  - Fixed CLI output
  - creating an already existing stack does not exit on a failure but success
+
+## v1.0.4
+### Changed
+ - Fixed creating of already existing stack

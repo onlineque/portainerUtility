@@ -94,7 +94,8 @@ var createStackCmd = &cobra.Command{
 
 		_, result := pApi.GetStackByName(name)
 		if result {
-			log.Fatalf("can't create the stack %s, it exists", name)
+			log.Printf("skipping the stack creation, stack %s already exists", name)
+			return
 		}
 
 		autoUpdate := api.PortainerStackAutoUpdate{
