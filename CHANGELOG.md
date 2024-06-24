@@ -12,3 +12,8 @@ All notable changes to this project will be documented in this file.
 ## v1.0.2
 ### Changed
  - Fixed CI/CD again
+
+## v1.0.3
+### Changed
+ - Fixed CLI output
+ - creating an already existing stack does not exit on a failure but success
