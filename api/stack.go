@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -79,12 +80,12 @@ func (pApi *PortainerAPI) get(apiPath string) (data []interface{}, err error) {
 
 func (pApi *PortainerAPI) post(apiPath string, jsonData []byte) (err error) {
 	targetUrl := fmt.Sprintf("%s%s", pApi.ApiBaseUrl, apiPath)
-	fmt.Printf("Target URL: %s\n", targetUrl)
+	log.Printf("Target URL: %s\n", targetUrl)
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: pApi.InsecureSkipVerify}
 	client := &http.Client{}
 
-	fmt.Println(string(jsonData))
+	// fmt.Println(string(jsonData))
 	req, err := http.NewRequest("POST", targetUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
@@ -102,7 +103,7 @@ func (pApi *PortainerAPI) post(apiPath string, jsonData []byte) (err error) {
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return fmt.Errorf("error: %s", resp.Status)
 	}
-	fmt.Println(resp.Status)
+	log.Print(resp.Status)
 	return nil
 }
 
@@ -210,7 +211,8 @@ func (pApi *PortainerAPI) CreateStack(newStack PortainerStack) (err error) {
 
 	_, isStack := pApi.GetStackByName(newStack.Name)
 	if isStack {
-		return fmt.Errorf("stack %s already exists, skipping its creation", newStack.Name)
+		log.Printf("stack %s already exists, skipping its creation", newStack.Name)
+		return nil
 	}
 
 	targetUrl := fmt.Sprintf("/stacks/create/swarm/repository?endpointId=%d", int(newStack.EndpointId))
@@ -248,4 +250,3 @@ func (pApi *PortainerAPI) UpdateStack(existingStack PortainerStack) (err error) 
 
 }
 */
-
