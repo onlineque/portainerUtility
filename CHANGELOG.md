@@ -21,3 +21,8 @@ All notable changes to this project will be documented in this file.
 ## v1.0.4
 ### Changed
  - Fixed creating of already existing stack
+
+## v1.0.5
+### Changed
+ - All UI outputs are consistent
+ - Better error reporting

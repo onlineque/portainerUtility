@@ -80,7 +80,7 @@ func (pApi *PortainerAPI) get(apiPath string) (data []interface{}, err error) {
 
 func (pApi *PortainerAPI) post(apiPath string, jsonData []byte) (err error) {
 	targetUrl := fmt.Sprintf("%s%s", pApi.ApiBaseUrl, apiPath)
-	log.Printf("Target URL: %s\n", targetUrl)
+	log.Printf("target URL: %s\n", targetUrl)
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: pApi.InsecureSkipVerify}
 	client := &http.Client{}
@@ -95,21 +95,29 @@ func (pApi *PortainerAPI) post(apiPath string, jsonData []byte) (err error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
+		log.Printf("error sending request: %s", err.Error())
 		return err
 	}
 	defer resp.Body.Close()
 
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("error getting response: %s", err.Error())
+		return
+	}
+	log.Print(string(body))
+
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return fmt.Errorf("error: %s", resp.Status)
 	}
+
 	log.Print(resp.Status)
 	return nil
 }
 
 func (pApi *PortainerAPI) put(apiPath string, jsonData []byte) {
 	targetUrl := fmt.Sprintf("%s%s", pApi.ApiBaseUrl, apiPath)
-	fmt.Printf("Target URL: %s\n", targetUrl)
+	log.Printf("target URL: %s\n", targetUrl)
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: pApi.InsecureSkipVerify}
 	client := &http.Client{}
@@ -123,12 +131,19 @@ func (pApi *PortainerAPI) put(apiPath string, jsonData []byte) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
+		log.Printf("error sending request: %s", err.Error())
 		return
 	}
 	defer resp.Body.Close()
 
-	fmt.Println(resp.Status)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("error getting response: %s", err.Error())
+		return
+	}
+	log.Print(string(body))
+
+	log.Print(resp.Status)
 	return
 }
 
@@ -148,18 +163,18 @@ func (pApi *PortainerAPI) delete(apiPath string) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
+		log.Printf("error sending request: %s", err)
 		return
 	}
 	defer resp.Body.Close()
 
-	fmt.Println(resp.Status)
+	log.Print(resp.Status)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("error getting response: %s", err.Error())
+		log.Printf("error getting response: %s", err.Error())
 		return
 	}
-	fmt.Println(string(body))
+	log.Print(string(body))
 	return
 }
 
