@@ -45,7 +45,7 @@ jobs:
     needs: [release,build]
     runs-on: ubuntu-latest
     steps:
-      - uses: AButler/upload-release-assets@v3.0
+      - uses: AButler/upload-release-assets@v4.0.0
         with:
           files: "portainerUtility"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
